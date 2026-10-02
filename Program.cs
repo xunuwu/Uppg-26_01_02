@@ -128,7 +128,10 @@ namespace Uppg_26_01_02
 
         static void three_nine()
         {
-            
+            // stödjer också fler än två :p
+            Console.Write("skriv in ditt uttryck: ");
+            string input = Console.ReadLine()!;
+            Console.WriteLine(input.Split('+').Select(int.Parse).Sum());
         }
     }
 }
