@@ -1,10 +1,13 @@
-﻿namespace Uppg_26_01_02
+﻿using System.Globalization;
+using System.Security.AccessControl;
+
+namespace Uppg_26_01_02
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            three_five();
+            three_nine();
         }
 
         static void three_one()
@@ -79,6 +82,53 @@
             4 => $"{first / second}",
             _ => "ogiltigt alternativ",
             });
+        }
+
+        static void three_six()
+        {
+            Console.Write("skriv ditt förnamn & efternamn: ");
+            string[] names = Console.ReadLine()!.ToLower().Split();
+
+            Console.WriteLine(names[0].CompareTo(names[1]) switch
+            {
+                0 => "dinna namn kommer på samma plats",
+                >0 => "ditt efternamn kommer först",
+                <0 => "ditt förnamn kommer först",
+            });
+        }
+
+        static void three_seven()
+        {
+            Console.Write("skriv in en addition eller subtraktion: ");
+            string input = Console.ReadLine()!.Trim();
+
+            // this assumes the input is valid :p
+            bool contains_plus = input.Contains('+');
+            bool contains_minus = input.Contains('-');
+
+            int[] operands = [.. input.Split(contains_plus ? '+' : '-').Select(int.Parse)];
+            Console.WriteLine(operands.Aggregate((acc, x) => contains_plus ? acc + x : acc - x));
+        }
+
+        static void three_eight()
+        {
+            Console.WriteLine("ange tre stycken ord:");
+            Console.Write("ord 1: ");
+            string first = Console.ReadLine()!;
+            Console.Write("ord 2: ");
+            string second = Console.ReadLine()!;
+            Console.Write("ord 3: ");
+            string third = Console.ReadLine()!;
+
+            (string, int)[] words = [(first, 1), (second, 2), (third, 3)];
+            words.Sort();
+
+            Console.WriteLine($"ordet på plats nr {words[0].Item2} kommer först i bokstavsordning");
+        }
+
+        static void three_nine()
+        {
+            
         }
     }
 }
