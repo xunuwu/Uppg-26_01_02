@@ -121,6 +121,6 @@ internal class Program
     static void three_nine()
     {
         Console.Write("skriv in ditt uttryck: ");
-        Console.WriteLine(Console.ReadLine()!.Split('+').Select(int.Parse).Sum());
+        Console.WriteLine(Console.ReadLine()!.Split('+').Sum(int.Parse));
     }
 }
