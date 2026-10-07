@@ -1,20 +1,29 @@
-﻿using System.Globalization;
-using System.Security.AccessControl;
-
-namespace Uppg_26_01_02
+﻿namespace Uppg_26_01_02
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            three_nine();
+            while (true)
+            {
+                try
+                {
+                    Console.Write("input a number to run assignment number 3.{your number}: ");
+                    int num = int.Parse(Console.ReadLine()!);
+                    ((Action[])[three_one, three_two, three_three, three_four, three_five, three_six, three_seven, three_eight, three_nine])[--num]();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error: {e.Message}");
+                }
+            }
         }
 
         static void three_one()
         {
             Console.Write("how old are you? ");
-            int age = int.Parse(Console.ReadLine()!);
-            Console.WriteLine(age switch {
+            Console.WriteLine(int.Parse(Console.ReadLine()!) switch
+            {
                 < 16 => "you are too young",
                 > 19 => "you are too old",
                 _ => "you may participate in the competition"
@@ -28,8 +37,9 @@ namespace Uppg_26_01_02
 
             Console.Write("hur gammal är du? ");
             int age = int.Parse(Console.ReadLine()!);
-            Console.WriteLine((has_finished, age) switch {
-                (true, <22) => "Vi vill gärna anställa dig",
+            Console.WriteLine((has_finished, age) switch
+            {
+                (true, < 22) => "Vi vill gärna anställa dig",
                 _ => "Vi letar tyvärr efter annan personal just nu",
             });
         }
@@ -40,7 +50,7 @@ namespace Uppg_26_01_02
             int hours = int.Parse(Console.ReadLine()!);
             Console.WriteLine($"Det kommer att kosta dig {(hours * 80) switch
             {
-                >950 => 950,
+                > 950 => 950,
                 var x => x,
             }} kr");
         }
@@ -55,7 +65,7 @@ namespace Uppg_26_01_02
 
             Console.WriteLine(seconds switch
             {
-                >4 * 60 + 20 or <2 * 60 + 45 => "låten får inte spelas",
+                > 4 * 60 + 20 or < 2 * 60 + 45 => "låten får inte spelas",
                 _ => "låten får spelas",
             });
         }
@@ -75,12 +85,13 @@ namespace Uppg_26_01_02
             4. Division
             """);
 
-            Console.WriteLine(int.Parse(Console.ReadLine()!) switch {
-            1 => $"{first + second}",
-            2 => $"{first - second}",
-            3 => $"{first * second}",
-            4 => $"{first / second}",
-            _ => "ogiltigt alternativ",
+            Console.WriteLine(int.Parse(Console.ReadLine()!) switch
+            {
+                1 => $"{first + second}",
+                2 => $"{first - second}",
+                3 => $"{first * second}",
+                4 => $"{first / second}",
+                _ => "ogiltigt alternativ",
             });
         }
 
@@ -88,50 +99,29 @@ namespace Uppg_26_01_02
         {
             Console.Write("skriv ditt förnamn & efternamn: ");
             string[] names = Console.ReadLine()!.ToLower().Split();
-
-            Console.WriteLine(names[0].CompareTo(names[1]) switch
-            {
-                0 => "dinna namn kommer på samma plats",
-                >0 => "ditt efternamn kommer först",
-                <0 => "ditt förnamn kommer först",
-            });
+            Console.WriteLine($"ditt {(names.Order().First() == names[0] ? "förnamn" : "efternamn")} kommer först");
         }
 
         static void three_seven()
         {
             Console.Write("skriv in en addition eller subtraktion: ");
-            string input = Console.ReadLine()!.Trim();
+            string input = Console.ReadLine()!;
 
-            // this assumes the input is valid :p
             bool contains_plus = input.Contains('+');
-            bool contains_minus = input.Contains('-');
-
-            int[] operands = [.. input.Split(contains_plus ? '+' : '-').Select(int.Parse)];
-            Console.WriteLine(operands.Aggregate((acc, x) => contains_plus ? acc + x : acc - x));
+            Console.WriteLine(input.Split(['+', '-']).Select(int.Parse).Aggregate((acc, x) => contains_plus ? acc + x : acc - x));
         }
 
         static void three_eight()
         {
-            Console.WriteLine("ange tre stycken ord:");
-            Console.Write("ord 1: ");
-            string first = Console.ReadLine()!;
-            Console.Write("ord 2: ");
-            string second = Console.ReadLine()!;
-            Console.Write("ord 3: ");
-            string third = Console.ReadLine()!;
-
-            (string, int)[] words = [(first, 1), (second, 2), (third, 3)];
-            words.Sort();
-
-            Console.WriteLine($"ordet på plats nr {words[0].Item2} kommer först i bokstavsordning");
+            Console.WriteLine("ange tre stycken ord: ");
+            int spot = Enumerable.Range(1, 3).Select(n => { Console.Write($"ord {n}: "); return (Console.ReadLine(), n); }).Order().First().n;
+            Console.WriteLine($"ordet på plats nr {spot} kom först");
         }
 
         static void three_nine()
         {
-            // stödjer också fler än två :p
             Console.Write("skriv in ditt uttryck: ");
-            string input = Console.ReadLine()!;
-            Console.WriteLine(input.Split('+').Select(int.Parse).Sum());
+            Console.WriteLine(Console.ReadLine()!.Split('+').Select(int.Parse).Sum());
         }
     }
 }
